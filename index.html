@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoL Quiz</title>
+
+    <style>
+        body {
+            background-image: url("lolcito.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: Arial, sans-serif;
+            color: white;
+            text-align: center;
+        }
+
+        #quiz-container {
+            margin-top: 50px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 25px;
+            border-radius: 15px;
+            width: 60%;
+            margin-left: auto;
+            margin-right: auto;
+            display: none;
+        }
+
+        .option-btn {
+            display: block;
+            width: 80%;
+            padding: 10px;
+            margin: 10px auto;
+            cursor: pointer;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+        }
+
+        #start-btn {
+            padding: 15px 30px;
+            font-size: 20px;
+            margin-top: 20px;
+            cursor: pointer;
+            border: none;
+            border-radius: 10px;
+        }
+
+        #next-btn {
+            padding: 10px 20px;
+            margin-top: 20px;
+            font-size: 18px;
+            display: none;
+        }
+
+        #result-screen {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>LoL Champion Quiz</h1>
+    <button id="start-btn">Start Quiz</button>
+
+    <div id="quiz-container">
+        <h2 id="question-text"></h2>
+        <div id="options"></div>
+        <button id="next-btn">Siguiente</button>
+    </div>
+
+    <div id="result-screen">
+        <h2 id="result-text"></h2>
+        <button onclick="location.reload()">Intentar de nuevo</button>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "“Soy un ninja que controla el equilibrio. Mi sombra pelea conmigo, y si mis marcas activo… tu vida te quito.”",
+                options: ["Shen", "Zed", "Yone", "Akali"],
+                answer: "Zed"
+            },
+            {
+                question: "“No tengo piernas, pero salto sin parar. Mi risa es explosiva, y te cae una granada si te llego a alcanzar.”",
+                options: ["Teemo", "Ziggs", "Heimerdinger", "Rumble"],
+                answer: "Ziggs"
+            },
+            {
+                question: "“Mi música puede curar o destruir. Con mis cuerdas te protejo, y con mi último movimiento, todo el equipo resucito.”",
+                options: ["Seraphine", "Sona", "Kayle", "Janna"],
+                answer: "Sona"
+            },
+            {
+                question: "“Tengo una lámpara que puede salvar. Si estás en peligro, solo la tenés que agarrar.”",
+                options: ["Thresh", "Lucian", "Pyke", "Braum"],
+                answer: "Thresh"
+            },
+            {
+                question: "“Soy una arquera de hielo, mi flecha viaja sin parar. Si te toca, quedás congelado en tu lugar.”",
+                options: ["Ashe", "Sejuani", "Lissandra", "Vayne"],
+                answer: "Ashe"
+            },
+            {
+                question: "“Entre las sombras camino, pero monstruo no soy. Mi máscara oculta mi cara… pero mis dagas ya las viste hoy.”",
+                options: ["Katarina", "Akali", "Evelynn", "Kalista"],
+                answer: "Evelynn"
+            },
+            {
+                question: "“Mi lanza siempre está lista, soy noble y leal. Y cuando salto hacia adelante… todo el mundo debe aguantar.”",
+                options: ["Xin Zhao", "Pantheon", "Jarvan IV", "Garen"],
+                answer: "Jarvan IV"
+            },
+            {
+                question: "“Soy un maestro del tiempo. Retrocedo lo que dañaste o adelanto tu final.”",
+                options: ["Ekko", "Zilean", "Ryze", "Kassadin"],
+                answer: "Zilean"
+            },
+            {
+                question: "“Tengo un sombrero enorme, y mi magia es mortal. Si me dejas escalar… no te voy a perdonar.”",
+                options: ["Veigar", "Ryze", "Brand", "Swain"],
+                answer: "Veigar"
+            },
+            {
+                question: "“Soy un cazador del vacío. Con mis sentidos escucho todo, y cuando salto… no podés escapar.”",
+                options: ["Rek'Sai", "Kha'Zix", "Cho'Gath", "Vel'Koz"],
+                answer: "Kha'Zix"
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        const startBtn = document.getElementById("start-btn");
+        const quizContainer = document.getElementById("quiz-container");
+        const questionText = document.getElementById("question-text");
+        const optionsDiv = document.getElementById("options");
+        const nextBtn = document.getElementById("next-btn");
+        const resultScreen = document.getElementById("result-screen");
+        const resultText = document.getElementById("result-text");
+
+        startBtn.onclick = () => {
+            startBtn.style.display = "none";
+            quizContainer.style.display = "block";
+            loadQuestion();
+        };
+
+        function loadQuestion() {
+            const q = questions[currentQuestion];
+            questionText.textContent = q.question;
+
+            optionsDiv.innerHTML = "";
+            nextBtn.style.display = "none";
+
+            q.options.forEach(option => {
+                const btn = document.createElement("button");
+                btn.textContent = option;
+                btn.className = "option-btn";
+                btn.onclick = () => selectOption(option, btn);
+                optionsDiv.appendChild(btn);
+            });
+        }
+
+        function selectOption(option, btn) {
+            const correct = questions[currentQuestion].answer;
+
+            if (option === correct) {
+                btn.style.backgroundColor = "green";
+                score++;
+            } else {
+                btn.style.backgroundColor = "red";
+            }
+
+            // Deshabilitar botones
+            const allBtns = document.querySelectorAll(".option-btn");
+            allBtns.forEach(b => b.disabled = true);
+
+            nextBtn.style.display = "block";
+        }
+
+        nextBtn.onclick = () => {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        };
+
+        function showResults() {
+            quizContainer.style.display = "none";
+            resultScreen.style.display = "block";
+
+            let rank = "";
+            if (score <= 4) rank = "Bronce";
+            else if (score <= 7) rank = "Plata";
+            else if (score <= 9) rank = "Oro";
+            else rank = "Diamante";
+
+            resultText.textContent = `Tu puntuación: ${score}/${questions.length} — Rango: ${rank}`;
+        }
+    </script>
+
+</body>
+</html>
