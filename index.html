@@ -59,6 +59,67 @@
         #result-screen {
             display: none;
         }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            padding: 15px 20px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6));
+            backdrop-filter: blur(5px);
+            border-top: 2px solid rgba(200, 155, 60, 0.5);
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.5);
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.9);
+            z-index: 1000;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .creator-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .creator-label {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .lol-alias {
+            font-size: 16px;
+            font-weight: bold;
+            color: #C89B3C;
+            text-shadow: 0 0 10px rgba(200, 155, 60, 0.5);
+            font-family: 'Courier New', monospace;
+        }
+
+        .separator {
+            color: rgba(200, 155, 60, 0.4);
+            font-size: 18px;
+        }
+
+        @media (max-width: 600px) {
+            .footer-content {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .separator {
+                display: none;
+            }
+        }
     </style>
 </head>
 
@@ -204,6 +265,20 @@
             resultText.textContent = `Tu puntuación: ${score}/${questions.length} — Rango: ${rank}`;
         }
     </script>
+
+    <footer>
+        <div class="footer-content">
+            <div class="creator-info">
+                <span class="creator-label">Creado por</span>
+                <span class="lol-alias">CloudStrom#LAS</span>
+            </div>
+            <span class="separator">⚔</span>
+            <div class="creator-info">
+                <span class="creator-label">Contribuido por</span>
+                <span class="lol-alias">SIUUUUUU#LAS</span>
+            </div>
+        </div>
+    </footer>
 
 </body>
 </html>
